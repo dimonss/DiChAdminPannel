@@ -1,34 +1,30 @@
-import { Box, Flex, Icon, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
-import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
+import { MdCancel, MdCheckCircle } from 'react-icons/md';
+import { GoodsI } from 'models/GoodsI';
+import STRINGS from 'constants/strings';
 
-type RowObj = {
-    name: string;
-    status: string;
-    date: string;
-    progress: number;
-};
+const columnHelper = createColumnHelper<GoodsI>();
 
-const columnHelper = createColumnHelper<RowObj>();
+interface PropsI {
+    tableData: GoodsI[];
+}
 
-// const columns = columnsDataCheck;
-export default function ComplexTable(props: { tableData: any }) {
-    const { tableData } = props;
+const GoodsTable: React.FC<PropsI> = ({ tableData }) => {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-    let defaultData = tableData;
     const columns = [
-        columnHelper.accessor('name', {
-            id: 'name',
+        columnHelper.accessor('title', {
+            id: 'title',
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    NAME
+                    {STRINGS.NAME}
                 </Text>
             ),
             cell: (info: any) => (
@@ -39,49 +35,12 @@ export default function ComplexTable(props: { tableData: any }) {
                 </Flex>
             ),
         }),
-        columnHelper.accessor('status', {
-            id: 'status',
+
+        columnHelper.accessor('price', {
+            id: 'price',
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    STATUS
-                </Text>
-            ),
-            cell: (info) => (
-                <Flex align="center">
-                    <Icon
-                        w="24px"
-                        h="24px"
-                        me="5px"
-                        color={
-                            info.getValue() === 'Approved'
-                                ? 'green.500'
-                                : info.getValue() === 'Disable'
-                                  ? 'red.500'
-                                  : info.getValue() === 'Error'
-                                    ? 'orange.500'
-                                    : null
-                        }
-                        as={
-                            info.getValue() === 'Approved'
-                                ? MdCheckCircle
-                                : info.getValue() === 'Disable'
-                                  ? MdCancel
-                                  : info.getValue() === 'Error'
-                                    ? MdOutlineError
-                                    : null
-                        }
-                    />
-                    <Text color={textColor} fontSize="sm" fontWeight="700">
-                        {info.getValue()}
-                    </Text>
-                </Flex>
-            ),
-        }),
-        columnHelper.accessor('date', {
-            id: 'date',
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    DATE
+                    {STRINGS.PURCHASING}
                 </Text>
             ),
             cell: (info) => (
@@ -90,21 +49,40 @@ export default function ComplexTable(props: { tableData: any }) {
                 </Text>
             ),
         }),
-        columnHelper.accessor('progress', {
-            id: 'progress',
+        columnHelper.accessor('sellingPrice', {
+            id: 'sellingPrice',
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    PROGRESS
+                    {STRINGS.SALE}
                 </Text>
             ),
             cell: (info) => (
-                <Flex align="center">
-                    <Progress variant="table" colorScheme="brandScheme" h="8px" w="108px" value={info.getValue()} />
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor('displayInShop', {
+            id: 'displayInShop',
+            header: () => (
+                <Text align={'center'} fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.DISPLAY_ON_SITE}
+                </Text>
+            ),
+            cell: (info) => (
+                <Flex justifyContent={'center'}>
+                    <Icon
+                        w="24px"
+                        h="24px"
+                        me="5px"
+                        color={info.getValue() === 1 ? 'green.500' : info.getValue() === 0 ? 'red.500' : null}
+                        as={info.getValue() === 1 ? MdCheckCircle : info.getValue() === 0 ? MdCancel : null}
+                    />
                 </Flex>
             ),
         }),
     ];
-    const [data] = React.useState(() => [...defaultData]);
+    const [data] = React.useState(() => [...tableData]);
     const table = useReactTable({
         data,
         columns,
@@ -120,7 +98,7 @@ export default function ComplexTable(props: { tableData: any }) {
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
             <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
                 <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-                    Complex Table
+                    {STRINGS.GOODS}
                 </Text>
                 <Menu />
             </Flex>
@@ -158,7 +136,7 @@ export default function ComplexTable(props: { tableData: any }) {
                     <Tbody>
                         {table
                             .getRowModel()
-                            .rows.slice(0, 5)
+                            .rows.slice(0, 11)
                             .map((row) => {
                                 return (
                                     <Tr key={row.id}>
@@ -181,4 +159,6 @@ export default function ComplexTable(props: { tableData: any }) {
             </Box>
         </Card>
     );
-}
+};
+
+export default GoodsTable;

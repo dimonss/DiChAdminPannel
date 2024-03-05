@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Icon, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
@@ -13,9 +13,11 @@ const columnHelper = createColumnHelper<GoodsI>();
 
 interface PropsI {
     tableData: GoodsI[];
+    isLoading?: Boolean;
+    error?: string;
 }
 
-const GoodsTable: React.FC<PropsI> = ({ tableData }) => {
+const GoodsTable: React.FC<PropsI> = ({ tableData, isLoading, error }) => {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
@@ -82,9 +84,8 @@ const GoodsTable: React.FC<PropsI> = ({ tableData }) => {
             ),
         }),
     ];
-    const [data] = React.useState(() => [...tableData]);
     const table = useReactTable({
-        data,
+        data: tableData,
         columns,
         state: {
             sorting,
@@ -100,6 +101,12 @@ const GoodsTable: React.FC<PropsI> = ({ tableData }) => {
                 <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
                     {STRINGS.GOODS}
                 </Text>
+                {error && (
+                    <Text fontSize="sm" color="red.400">
+                        {error}
+                    </Text>
+                )}
+                {isLoading && <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />}
                 <Menu />
             </Flex>
             <Box>
@@ -134,26 +141,23 @@ const GoodsTable: React.FC<PropsI> = ({ tableData }) => {
                         ))}
                     </Thead>
                     <Tbody>
-                        {table
-                            .getRowModel()
-                            .rows.slice(0, 11)
-                            .map((row) => {
-                                return (
-                                    <Tr key={row.id}>
-                                        {row.getVisibleCells().map((cell) => {
-                                            return (
-                                                <Td
-                                                    key={cell.id}
-                                                    fontSize={{ sm: '14px' }}
-                                                    minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                                                    borderColor="transparent">
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </Td>
-                                            );
-                                        })}
-                                    </Tr>
-                                );
-                            })}
+                        {table.getRowModel().rows.map((row) => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <Td
+                                                key={cell.id}
+                                                fontSize={{ sm: '14px' }}
+                                                minW={{ sm: '150px', md: '200px', lg: 'auto' }}
+                                                borderColor="transparent">
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })}
                     </Tbody>
                 </Table>
             </Box>

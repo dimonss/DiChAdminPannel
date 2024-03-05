@@ -19,6 +19,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 // Assets
 import { IoMenuOutline } from 'react-icons/io5';
+import {RoutesType} from 'types/global'
 
 function Sidebar(props: { routes: RoutesType[]; [x: string]: any }) {
 	const { routes } = props;

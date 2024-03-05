@@ -9,10 +9,10 @@ const GoodsView = () => {
     useEffect(() => {
         dispatch(fetchGoods());
     }, [dispatch]);
-    const goods = useAppSelector((state) => state.goodsReducer.goods);
+    const { data, isLoading, error } = useAppSelector((state) => state.goods);
     return (
         <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-            <GoodsTable tableData={goods} />
+            <GoodsTable tableData={data} isLoading={isLoading} error={error} />
         </Box>
     );
 };

@@ -5,14 +5,14 @@ import { getHTTPResponseErrorMessage, getResponseErrorMessage } from 'utils/APIU
 import { getGoods } from 'API/mainAPI';
 
 export interface GoodsReduxI {
-    goods: GoodsI[];
+    data: GoodsI[];
     isLoading: boolean;
     error: any;
     counter: number;
 }
 
 const initialState: GoodsReduxI = {
-    goods: [],
+    data: [],
     isLoading: false,
     error: '',
     counter: 160,
@@ -38,20 +38,19 @@ export const goodSlice = createSlice({
         decrement(state, action: PayloadAction<number>) {
             state.counter -= action.payload;
         },
+        goodsSetInitialState: () => initialState,
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGoods.fulfilled, (state, action: PayloadAction<BaseResponseI<GoodsI[]>>) => {
             state.isLoading = false;
             state.error = null;
-            state.goods = action.payload.data;
+            state.data = action.payload.data;
         });
         builder.addCase(fetchGoods.pending, (state) => {
             state.isLoading = true;
         });
         builder.addCase(fetchGoods.rejected, (state, action) => {
-            console.log('action');
-            console.log(action);
-            state.isLoading = true;
+            state.isLoading = false;
             state.error = action.payload;
         });
     },

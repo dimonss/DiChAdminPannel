@@ -21,7 +21,9 @@ class ColumnChart extends React.Component<ChartProps, ChartState> {
 
 	componentDidMount() {
 		this.setState({
+			// eslint-disable-next-line react/prop-types
 			chartData: this.props.chartData,
+			// eslint-disable-next-line react/prop-types
 			chartOptions: this.props.chartOptions
 		});
 	}

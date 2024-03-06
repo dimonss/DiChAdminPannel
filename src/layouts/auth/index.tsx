@@ -1,30 +1,20 @@
-import { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import routes from 'routes';
-import { RoutesType } from 'types/global';
+import {useState} from 'react';
 
 // Chakra imports
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import {Box, useColorModeValue} from '@chakra-ui/react';
 
 // Layout components
-import { SidebarContext } from 'contexts/SidebarContext';
+import {SidebarContext} from 'contexts/SidebarContext';
+import SignInCentered from "views/auth/signIn";
 
 // Custom Chakra theme
 export default function Auth() {
     // states and functions
     const [toggleSidebar, setToggleSidebar] = useState(false);
-    const getRoute = () => {
-        return window.location.pathname !== '/auth/full-screen-maps';
-    };
-    const getRoutes = (routes: RoutesType[]): any => {
-        return routes.map((route: RoutesType, key: any) => {
-            if (route.layout === '/auth') {
-                return <Route path={route.layout + route.path} component={route.component} key={key} />;
-            } else {
-                return null;
-            }
-        });
-    };
+    // const getRoute = () => {
+    //     return window.location.pathname !== '/auth/full-screen-maps';
+    // };
+
     const authBg = useColorModeValue('white', 'navy.900');
     return (
         <Box>
@@ -44,14 +34,11 @@ export default function Auth() {
                     transitionDuration=".2s, .2s, .35s"
                     transitionProperty="top, bottom, width"
                     transitionTimingFunction="linear, linear, ease">
-                    {getRoute() && (
+                    {
                         <Box mx="auto" minH="100vh">
-                            <Switch>
-                                {getRoutes(routes)}
-                                {/*<Redirect from="/auth" to="/auth/sign-in" />*/}
-                            </Switch>
+                            <SignInCentered/>
                         </Box>
-                    )}
+                    }
                 </Box>
             </SidebarContext.Provider>
         </Box>

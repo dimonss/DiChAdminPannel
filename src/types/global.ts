@@ -1,6 +1,5 @@
 export interface RoutesType {
-    name: string;
-    layout: string;
+    name?: string;
     component: () => JSX.Element;
     icon: JSX.Element | string;
     path: string;

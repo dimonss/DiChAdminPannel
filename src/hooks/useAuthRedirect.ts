@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'hooks/reduxHooks';
 import { AUTH, GOODS } from 'constants/urls';
 
 const useAuthRedirect = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { loggedIn } = useAppSelector((store) => store.user);
-    const [renderAuthPage, setRenderAuthPage] = useState(true); //crutch for normalized redirect from login page to home page
+    const [userAuthorized, setUserAuthorized] = useState(false); //crutch for normalized redirect from login page to home page
     useEffect(() => {
         if (loggedIn) {
-            history.replace(GOODS);
-            setRenderAuthPage(!loggedIn);
+            navigate(GOODS, { replace: true });
+            setUserAuthorized(true);
         } else {
-            setRenderAuthPage(true);
-            history.replace(AUTH);
+            setUserAuthorized(false);
+            navigate(AUTH, { replace: true });
         }
-    }, [loggedIn, history]);
-    return { renderAuthPage };
+    }, [loggedIn]); // eslint-disable-line
+    return { userAuthorized };
 };
 
 export default useAuthRedirect;

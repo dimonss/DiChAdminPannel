@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppSelector } from 'hooks/reduxHooks';
 import { mainAPI } from 'API/mainAPI';
 
-const UseAuth = (): null => {
+const useAuth = (): null => {
     const auth = useAppSelector((state) => state.user.auth);
     // const { closeSnackbar } = useSnackbar();
 
@@ -13,4 +13,4 @@ const UseAuth = (): null => {
     return null;
 };
 
-export default UseAuth;
+export default useAuth;

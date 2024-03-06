@@ -3,7 +3,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 // chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react';
-import {RoutesType} from 'types/global'
+import { RoutesType } from 'types/global';
 
 export function SidebarLinks(props: { routes: RoutesType[] }) {
     //   Chakra color mode
@@ -24,9 +24,9 @@ export function SidebarLinks(props: { routes: RoutesType[] }) {
     // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
     const createLinks = (routes: RoutesType[]) => {
         return routes.map((route: RoutesType, index: number) => {
-            if (route.layout === '/admin' || route.layout === '/rtl') {
+            if (route?.name) {
                 return (
-                    <NavLink key={index} to={route.layout + route.path}>
+                    <NavLink key={index} to={route.path}>
                         {route.icon ? (
                             <Box>
                                 <HStack spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'} py="5px" ps="10px">

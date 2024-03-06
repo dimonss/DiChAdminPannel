@@ -1,16 +1,15 @@
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdHome, MdOutlineCreditCard, MdOutlineShoppingCart, MdPerson } from 'react-icons/md';
+import { GOODS } from 'constants/urls';
+import STRINGS from 'constants/strings';
+import { lazy } from 'react';
 
 // Admin Imports
-import MainDashboard from 'views/admin/default';
-import NFTMarketplace from 'views/admin/marketplace';
-import Profile from 'views/admin/profile';
-import DataTables from 'views/admin/dataTables';
-
-// Auth Imports
-import STRINGS from 'constants/strings';
-import GoodsView from 'views/admin/goods/GoodsView';
-import { GOODS } from 'constants/urls';
+const MainDashboard = lazy(() => import('views/admin/default'));
+const NFTMarketplace = lazy(() => import('views/admin/marketplace'));
+const Profile = lazy(() => import('views/admin/profile'));
+const DataTables = lazy(() => import('views/admin/dataTables'));
+const GoodsView = lazy(() => import('views/admin/goods/GoodsView'));
 
 const routes = [
     {

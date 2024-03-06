@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AuthLayout from 'layouts/auth';
-import AdminLayout from 'layouts/admin';
 import useAuthRedirect from 'hooks/useAuthRedirect';
 import useAuth from 'hooks/useAuth';
 import routes from 'routes';
-import { RoutesType } from 'types/global';
+import { RoutesType } from 'types/globalTypes';
+import GlobalLoader from 'components/loader/GlobalLoader';
+
+const AuthLayout = React.lazy(() => import('layouts/auth'));
+const AdminLayout = React.lazy(() => import('layouts/admin'));
 
 const App = () => {
     const getRoutes = (routes: RoutesType[]) =>
@@ -13,12 +15,14 @@ const App = () => {
     const { userAuthorized } = useAuthRedirect();
     useAuth();
     return (
-        <Routes>
-            {!userAuthorized && <Route path={`/auth`} element={<AuthLayout />} />}
-            <Route path={`/`} element={<AdminLayout />}>
-                {getRoutes(routes)}
-            </Route>
-        </Routes>
+        <Suspense fallback={<GlobalLoader />}>
+            <Routes>
+                {!userAuthorized && <Route path={`/auth`} element={<AuthLayout />} />}
+                <Route path={`/`} element={<AdminLayout />}>
+                    {getRoutes(routes)}
+                </Route>
+            </Routes>
+        </Suspense>
     );
 };
 

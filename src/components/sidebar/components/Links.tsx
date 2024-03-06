@@ -3,7 +3,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 // chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react';
-import { RoutesType } from 'types/global';
+import { RoutesType } from 'types/globalTypes';
 
 export function SidebarLinks(props: { routes: RoutesType[] }) {
     //   Chakra color mode

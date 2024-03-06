@@ -1,14 +1,14 @@
 // Chakra imports
-import {Box, Portal, useDisclosure} from '@chakra-ui/react';
+import { Box, Portal, useDisclosure } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
 import Sidebar from 'components/sidebar/Sidebar';
-import {SidebarContext} from 'contexts/SidebarContext';
-import {useState} from 'react';
-import {Outlet} from 'react-router-dom';
+import { SidebarContext } from 'contexts/SidebarContext';
+import React, { useState, Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 import routes from 'routes';
-import {RoutesType} from 'types/global';
+import GlobalLoader from 'components/loader/GlobalLoader';
 
 // Custom Chakra theme
 export default function Dashboard(props: { [x: string]: any }) {
@@ -17,16 +17,16 @@ export default function Dashboard(props: { [x: string]: any }) {
     const [fixed] = useState(false);
     const [toggleSidebar, setToggleSidebar] = useState(false);
     // functions for changing the states from components
-    const getActiveRoute = (routes: RoutesType[]): string => {
+    const getActiveRoute = (routes: { name?: string; path: string }[]): string => {
         let activeRoute = 'Default Brand Text';
         for (let i = 0; i < routes.length; i++) {
             if (window.location.href.indexOf(routes[i].path) !== -1) {
-                return routes[i].name;
+                return routes[i]?.name;
             }
         }
         return activeRoute;
     };
-    const getActiveNavbar = (routes: RoutesType[]): boolean => {
+    const getActiveNavbar = (routes: { secondary?: boolean; path: string }[]): boolean => {
         let activeNavbar = false;
         for (let i = 0; i < routes.length; i++) {
             if (window.location.href.indexOf(routes[i].path) !== -1) {
@@ -35,7 +35,7 @@ export default function Dashboard(props: { [x: string]: any }) {
         }
         return activeNavbar;
     };
-    const getActiveNavbarText = (routes: RoutesType[]): string | boolean => {
+    const getActiveNavbarText = (routes: { name: string; path: string }[]): string | boolean => {
         let activeNavbar = false;
         for (let i = 0; i < routes.length; i++) {
             if (window.location.href.indexOf(routes[i].path) !== -1) {
@@ -82,7 +82,9 @@ export default function Dashboard(props: { [x: string]: any }) {
                     </Portal>
 
                     <Box mx="auto" p={{ base: '20px', md: '30px' }} pe="20px" minH="100vh" pt="50px">
-                        <Outlet />
+                        <Suspense fallback={<GlobalLoader />}>
+                            <Outlet />
+                        </Suspense>
                     </Box>
                     <Box>
                         <Footer />

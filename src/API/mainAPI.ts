@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { BaseResponseI } from 'types/DTOTypes';
 import { GoodsI } from 'models/GoodsI';
-import { GOODS } from './endpoints';
+import { CATEGORY, GOODS, NOTIFICATION } from './endpoints';
 import checkAuth from 'API/checkAuth';
+import { CategoryI } from 'models/CategoryI';
+import { NotificationI } from 'models/NotificationI';
 
 const baseURL = 'https://dich.tech/api/';
 export const mainAPI: AxiosInstance = axios.create({
@@ -20,3 +22,5 @@ mainAPI.interceptors.response.use(
 );
 
 export const getGoods = () => mainAPI.get<BaseResponseI<GoodsI[]>>(GOODS);
+export const getCategory = () => mainAPI.get<BaseResponseI<CategoryI[]>>(CATEGORY);
+export const getNotification = () => mainAPI.get<BaseResponseI<NotificationI[]>>(NOTIFICATION);

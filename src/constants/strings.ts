@@ -3,6 +3,8 @@ enum STRINGS {
     EXCHANGE_RATES = 'Курс валют',
     UNKNOWN_ERROR = 'Неизвестная ошибка',
     GOODS = 'Товар',
+    CATEGORIES = 'Категории',
+    NOTIFICATIONS = 'Уведомления',
     PURCHASING = 'Закупочная',
     SALE = 'Продажная',
     NAME = 'Название',
@@ -15,6 +17,9 @@ enum STRINGS {
     FORGOT_PASSWORD = 'Забыли пароль?',
     NOT_REGISTERED_YET = 'Ещё нет аккаунта?',
     CONTACT_ADMIN = 'Обратиться к админу',
+    ID = 'ID',
+    DESCRIPTION = 'Описание',
+    IMAGE = 'Картинка',
 }
 
 export default STRINGS;

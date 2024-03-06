@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import goods from './slices/goodsSlice';
+import content from 'store/slices/contentSlice';
 import user from './slices/userSlice';
 import { loadState, saveState } from 'utils/localstorageUtils';
 
 export const rootReducer = combineReducers({
     user,
-    goods,
+    content,
 });
 const preloadedState = loadState();
 

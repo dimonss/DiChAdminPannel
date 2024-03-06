@@ -1,13 +1,13 @@
 import { userSlice } from 'store/slices/userSlice';
-import { goodSlice } from 'store/slices/goodsSlice';
+import { contentSlice } from 'store/slices/contentSlice';
 import { useDispatch } from 'react-redux';
 
 const useResetStore = () => {
     const dispatch = useDispatch();
-    const { goodsSetInitialState } = goodSlice.actions;
+    const { contentSetInitialState } = contentSlice.actions;
     const { userSetInitialState } = userSlice.actions;
     return () => {
-        dispatch(goodsSetInitialState());
+        dispatch(contentSetInitialState());
         dispatch(userSetInitialState());
     };
 };

@@ -21,7 +21,7 @@ import { useEffect, useState, ChangeEvent, useRef, useCallback, useMemo } from '
 import axios from 'axios';
 import STRINGS from 'constants/strings';
 import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks';
-import { goodSlice } from 'store/slices/goodsSlice';
+import { contentSlice } from 'store/slices/contentSlice';
 
 type CurrencyTypeI = 'USD' | 'EUR' | 'RUB';
 
@@ -88,8 +88,8 @@ export default function UserReports() {
         getCurrency();
     }, [getCurrency]);
 
-    const { counter } = useAppSelector((state) => state.goods);
-    const { increment, decrement } = goodSlice.actions;
+    const { counter } = useAppSelector((state) => state.content.goods);
+    const { increment, decrement } = contentSlice.actions;
     const dispatch = useAppDispatch();
 
     return (

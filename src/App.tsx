@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import AuthLayout from 'layouts/auth';
 import AdminLayout from 'layouts/admin';
-import { useAppSelector } from 'hooks/reduxHooks';
-import { AUTH, GOODS } from 'constants/urls';
+import useAuthRedirect from 'hooks/useAuthRedirect';
 
 const App = () => {
-    const history = useHistory();
-    const { loggedIn } = useAppSelector((store) => store.user);
-
-    useEffect(() => {
-        if (loggedIn) history.replace(GOODS);
-        else history.replace(AUTH);
-    }, [loggedIn, history]);
+    const { renderAuthPage } = useAuthRedirect();
     return (
         <Switch>
-            {!loggedIn && <Route path={`/auth`} component={AuthLayout} />}
+            {renderAuthPage && <Route path={`/auth`} component={AuthLayout} />}
             <Route path={`/admin`} component={AdminLayout} />
             <Redirect from="/" to="/admin" />
         </Switch>

@@ -24,6 +24,8 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import STRINGS from 'constants/strings';
 import { useAppDispatch } from 'hooks/reduxHooks';
 import { userSlice } from 'store/slices/userSlice';
+// @ts-ignore
+import base64 from 'base-64';
 
 function SignIn() {
     // Chakra color mode
@@ -70,7 +72,7 @@ function SignIn() {
                     direction="column"
                     w={{ base: '100%', md: '420px' }}
                     maxW="100%"
-                    background="transparent"
+                    background={'transparent'}
                     borderRadius="15px"
                     mx={{ base: 'auto', lg: 'unset' }}
                     me="auto"
@@ -166,7 +168,7 @@ function SignIn() {
                             h="50"
                             mb="24px"
                             onClick={() => {
-                                dispatch(auth({ username, password }));
+                                dispatch(auth(`Basic ${base64.encode(username + ':' + password)}`));
                             }}>
                             {STRINGS.SIGN_IN}
                         </Button>

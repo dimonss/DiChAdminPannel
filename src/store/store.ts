@@ -2,10 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import content from 'store/slices/contentSlice';
 import user from './slices/userSlice';
 import { loadState, saveState } from 'utils/localstorageUtils';
+import { mainAPIRTKQuery } from 'API/mainAPIRTKQuery';
+import { rtkQueryErrorLogger } from 'API/checkAuth';
 
 export const rootReducer = combineReducers({
     user,
     content,
+    [mainAPIRTKQuery.reducerPath]: mainAPIRTKQuery.reducer,
 });
 const preloadedState = loadState();
 
@@ -14,6 +17,7 @@ export const setupStore = () =>
         reducer: rootReducer,
         preloadedState,
         devTools: true,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(mainAPIRTKQuery.middleware).concat(rtkQueryErrorLogger),
     });
 
 export const store = setupStore();

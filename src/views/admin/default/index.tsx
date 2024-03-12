@@ -7,7 +7,7 @@ import ruImg from './img/russiaFlag.png';
 import MiniCalendar from 'components/calendar/MiniCalendar';
 import MiniStatistics from 'components/card/MiniStatistics';
 import IconBox from 'components/icons/IconBox';
-import { MdAddTask, MdAttachMoney, MdBarChart, MdFileCopy, MdArrowUpward, MdArrowDownward } from 'react-icons/md';
+import { MdAddTask, MdArrowDownward, MdArrowUpward, MdAttachMoney, MdBarChart, MdFileCopy } from 'react-icons/md';
 import CheckTable from 'views/admin/rtl/components/CheckTable';
 import ComplexTable from 'views/admin/default/components/ComplexTable';
 import DailyTraffic from 'views/admin/default/components/DailyTraffic';
@@ -17,11 +17,9 @@ import TotalSpent from 'views/admin/default/components/TotalSpent';
 import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
 import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
-import { useEffect, useState, ChangeEvent, useRef, useCallback, useMemo } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import STRINGS from 'constants/strings';
-import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks';
-import { contentSlice } from 'store/slices/contentSlice';
 
 type CurrencyTypeI = 'USD' | 'EUR' | 'RUB';
 
@@ -88,10 +86,6 @@ export default function UserReports() {
         getCurrency();
     }, [getCurrency]);
 
-    const { counter } = useAppSelector((state) => state.content.goods);
-    const { increment, decrement } = contentSlice.actions;
-    const dispatch = useAppDispatch();
-
     return (
         <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, '2xl': 6 }} gap="20px" mb="20px">
@@ -145,18 +139,12 @@ export default function UserReports() {
                                     h="26px"
                                     bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
                                     icon={<Icon w="20px" h="20px" as={MdArrowUpward} color="white" />}
-                                    onClick={() => {
-                                        dispatch(increment(11));
-                                    }}
                                 />
                                 <IconBox
                                     w="26px"
                                     h="26px"
                                     bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
                                     icon={<Icon w="20px" h="20px" as={MdArrowDownward} color="white" />}
-                                    onClick={() => {
-                                        dispatch(decrement(11));
-                                    }}
                                 />
                             </Flex>
                             <IconBox
@@ -168,7 +156,7 @@ export default function UserReports() {
                         </>
                     }
                     name="New Tasks"
-                    value={counter}
+                    value={12}
                 />
                 <MiniStatistics
                     startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />} />}

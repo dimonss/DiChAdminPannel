@@ -75,6 +75,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/base-64": "^1.0.2",
     "@types/react-calendar": "^3.5.2",
     "@types/react-router-dom": "^5.3.3",
     "babel-plugin-react-html-attrs": "^3.0.5",

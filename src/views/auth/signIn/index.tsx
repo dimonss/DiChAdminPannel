@@ -24,7 +24,6 @@ import { RiEyeCloseLine } from 'react-icons/ri';
 import STRINGS from 'constants/strings';
 import { useAppDispatch } from 'hooks/reduxHooks';
 import { userSlice } from 'store/slices/userSlice';
-// @ts-ignore
 import base64 from 'base-64';
 
 function SignIn() {

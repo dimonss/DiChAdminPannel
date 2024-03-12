@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/reduxHooks';
-import { fetchCategory } from 'store/slices/contentSlice';
+import React from 'react';
 import { Box } from '@chakra-ui/react';
 import CategoryTable from 'views/admin/category/CategoryTable';
+import { contentAPI } from 'API/contentAPI';
+import STRINGS from 'constants/strings';
 
 const CategoryView = () => {
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        dispatch(fetchCategory());
-    }, [dispatch]);
-    const { data, isLoading, error } = useAppSelector((state) => state.content.category);
+    const { data, isLoading, isError } = contentAPI.useFetchCategoryQuery('');
     return (
         <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
-            <CategoryTable tableData={data} isLoading={isLoading} error={error} />
+            <CategoryTable tableData={data?.data} isLoading={isLoading} error={isError ? STRINGS.UPS : ''} />
         </Box>
     );
 };

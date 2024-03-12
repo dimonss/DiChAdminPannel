@@ -8,8 +8,8 @@ import store from 'store/store';
 
 const baseUrl = 'https://dich.tech/api/';
 
-export const contentAPI = createApi({
-    reducerPath: 'contentApt',
+export const contentApi = createApi({
+    reducerPath: 'contentApi',
     baseQuery: fetchBaseQuery({
         baseUrl,
         prepareHeaders: (headers) => {

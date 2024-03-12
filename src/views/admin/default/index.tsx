@@ -17,48 +17,20 @@ import TotalSpent from 'views/admin/default/components/TotalSpent';
 import WeeklyRevenue from 'views/admin/default/components/WeeklyRevenue';
 import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import axios from 'axios';
+import { ChangeEvent, useMemo, useState } from 'react';
 import STRINGS from 'constants/strings';
-
-type CurrencyTypeI = 'USD' | 'EUR' | 'RUB';
-
-enum CURRENCY_TYPE {
-    USD = 'USD',
-    EUR = 'EUR',
-    RUB = 'RUB',
-}
+import { exchangeRatesApi } from 'API/exchangeRatesAPI';
+import { CurrencyTypeI } from 'types/globalTypes';
+import { CURRENCY_TYPE } from 'constants/dropdownConst';
 
 export default function UserReports() {
     // Chakra Color Mode
     const brandColor = useColorModeValue('brand.500', 'white');
     const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 
-    const [usdCost, setUsdCost] = useState('0');
     const [currency, setCurrency] = useState<CurrencyTypeI | string>(CURRENCY_TYPE.USD);
-    const [isLoading, setIsLoading] = useState(false);
-    const firstRender = useRef(true);
+    const { data, isLoading, isError } = exchangeRatesApi.useFetchExchangeRateQuery(currency);
 
-    const getCurrency = useCallback(() => {
-        setIsLoading(true);
-        const url = 'https://v6.exchangerate-api.com/v6/88046671966c78a8f5e7f503/latest/' + currency;
-        axios
-            .get(url)
-            .then((res) => {
-                const persons = res.data;
-                if (persons?.result === 'success') {
-                    setUsdCost(String(persons?.conversion_rates?.KGS));
-                } else {
-                    setUsdCost(STRINGS.ERROR);
-                }
-            })
-            .catch(() => {
-                setUsdCost(STRINGS.ERROR);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [currency]);
     const flag = useMemo(() => {
         switch (currency) {
             case CURRENCY_TYPE.USD:
@@ -71,20 +43,6 @@ export default function UserReports() {
                 return usaImg;
         }
     }, [currency]);
-
-    useEffect(() => {
-        if (firstRender.current) {
-            getCurrency();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
-        getCurrency();
-    }, [getCurrency]);
 
     return (
         <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
@@ -127,7 +85,7 @@ export default function UserReports() {
                         </Flex>
                     }
                     name={STRINGS.EXCHANGE_RATES}
-                    value={usdCost}
+                    value={isError ? STRINGS.ERROR : data?.conversion_rates?.KGS}
                     isLoading={isLoading}
                 />
                 <MiniStatistics

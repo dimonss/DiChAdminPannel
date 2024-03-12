@@ -18,3 +18,5 @@ export interface ErrorI {
     status: NullableString;
     error: NullableString;
 }
+
+export type CurrencyTypeI = 'USD' | 'EUR' | 'RUB';

@@ -1,11 +1,11 @@
 import React from 'react';
 import GoodsTable from 'views/admin/goods/GoodsTable';
 import { Box } from '@chakra-ui/react';
-import { contentAPI } from 'API/contentAPI';
+import { contentApi } from 'API/contentApi';
 import STRINGS from 'constants/strings';
 
 const GoodsView = () => {
-    const { data, isLoading, isError } = contentAPI.useFetchGoodsQuery('');
+    const { data, isLoading, isError } = contentApi.useFetchGoodsQuery('');
     return (
         <Box
             pt={{

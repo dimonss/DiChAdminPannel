@@ -6,7 +6,7 @@ import { CategoryI } from 'models/CategoryI';
 import { NotificationI } from 'models/NotificationI';
 import store from 'store/store';
 
-const baseUrl = 'https://dich.tech/api/';
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const contentApi = createApi({
     reducerPath: 'contentApi',
@@ -27,13 +27,32 @@ export const contentApi = createApi({
             return response.json();
         },
     }),
+    tagTypes: ['UPDATE_CATEGORY'],
     endpoints: (build) => ({
+        //GOODS/////////////////////////////////////////////////////////////////////////////////////////////////////////
         fetchGoods: build.query<BaseResponseI<GoodsI[]>, string>({
             query: () => ({ url: GOODS }),
         }),
+
+        //CATEGORY//////////////////////////////////////////////////////////////////////////////////////////////////////
+        addCategory: build.mutation<BaseResponseI<null>, string>({
+            query: (name) => ({ url: CATEGORY, method: 'POST', body: { name } }),
+            invalidatesTags: ['UPDATE_CATEGORY'],
+        }),
         fetchCategory: build.query<BaseResponseI<CategoryI[]>, string>({
             query: () => ({ url: CATEGORY }),
+            providesTags: ['UPDATE_CATEGORY'],
         }),
+        updateCategory: build.mutation<BaseResponseI<null>, { id: string; newName: string }>({
+            query: ({ id, newName }) => ({ url: CATEGORY + id, method: 'PATCH', body: { name: newName } }),
+            invalidatesTags: ['UPDATE_CATEGORY'],
+        }),
+        deleteCategory: build.mutation<BaseResponseI<null>, string>({
+            query: (id) => ({ url: CATEGORY + id, method: 'DELETE' }),
+            invalidatesTags: ['UPDATE_CATEGORY'],
+        }),
+
+        //NOTIFICATIONS/////////////////////////////////////////////////////////////////////////////////////////////////
         fetchNotifications: build.query<BaseResponseI<NotificationI[]>, string>({
             query: () => ({ url: NOTIFICATION }),
         }),

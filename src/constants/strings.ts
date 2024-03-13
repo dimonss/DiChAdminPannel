@@ -20,7 +20,12 @@ enum STRINGS {
     ID = 'ID',
     DESCRIPTION = 'Описание',
     IMAGE = 'Картинка',
-    UPS = 'Упс, что то пошло не так'
+    UPS = 'Упс, что то пошло не так',
+    OPERATIONS = 'Операции',
+    SAVE = 'Сохранить',
+    EDIT = 'Редактирование',
+    ADD = 'Добавить',
+    ADDING = 'Добавление',
 }
 
 export default STRINGS;

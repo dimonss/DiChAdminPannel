@@ -1,10 +1,11 @@
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdHome, MdFormatListBulletedAdd, MdOutlineShoppingCart, MdPerson, MdNotificationsActive, MdCategory } from 'react-icons/md';
-import { CATEGORY, GOODS, NOTIFICATION } from 'constants/urls';
+import { CATEGORY, CATEGORY_DETAIL, GOODS, NOTIFICATION } from 'constants/urls';
 import STRINGS from 'constants/strings';
 import { lazy } from 'react';
 import CategoryView from 'views/admin/category/CategoryView';
 import NotificationView from 'views/admin/notification/NotificationView';
+import CategoryDetailView from 'views/admin/category/CategoryDetailView';
 
 // Admin Imports
 const MainDashboard = lazy(() => import('views/admin/default'));
@@ -50,6 +51,13 @@ const routes = [
         icon: <Icon as={MdCategory} width="20px" height="20px" color="inherit" />,
         path: CATEGORY,
         component: CategoryView,
+    },
+    {
+        name: STRINGS.CATEGORIES,
+        icon: <Icon as={MdCategory} width="20px" height="20px" color="inherit" />,
+        path: CATEGORY_DETAIL,
+        component: CategoryDetailView,
+        secondary: true,
     },
     {
         name: STRINGS.NOTIFICATIONS,

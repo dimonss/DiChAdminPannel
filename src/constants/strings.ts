@@ -26,6 +26,15 @@ enum STRINGS {
     EDIT = 'Редактирование',
     ADD = 'Добавить',
     ADDING = 'Добавление',
+    CLIENTS = 'Клиенты',
+    FIRSTNAME = 'Имя',
+    LASTNAME = 'Фамилия',
+    PHONE_NUMBER = 'Номер телефона',
+    PHOTO = 'Фото',
+    LIST = 'Список',
+    USERNAME = 'USERNAME',
+    DISCOUNT = 'Скидка',
+    REGISTRATION_DATA = 'Дата регистации',
 }
 
 export default STRINGS;

@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CATEGORY, GOODS, NOTIFICATION } from 'API/endpoints';
+import {CATEGORY, CLIENTS, GOODS, NOTIFICATION} from 'API/endpoints';
 import { BaseResponseI } from 'types/DTOTypes';
 import { GoodsI } from 'models/GoodsI';
 import { CategoryI } from 'models/CategoryI';
 import { NotificationI } from 'models/NotificationI';
 import store from 'store/store';
+import {ClientI} from "models/ClientI";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = process.env.REACT_APP_BASE_API_URL;
 
 export const contentApi = createApi({
     reducerPath: 'contentApi',
@@ -55,6 +56,10 @@ export const contentApi = createApi({
         //NOTIFICATIONS/////////////////////////////////////////////////////////////////////////////////////////////////
         fetchNotifications: build.query<BaseResponseI<NotificationI[]>, string>({
             query: () => ({ url: NOTIFICATION }),
+        }),
+        //CLIENTS/////////////////////////////////////////////////////////////////////////////////////////////////
+        fetchClients: build.query<BaseResponseI<ClientI[]>, string>({
+            query: () => ({ url: CLIENTS }),
         }),
     }),
 });

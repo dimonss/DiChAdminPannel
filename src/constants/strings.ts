@@ -35,6 +35,13 @@ enum STRINGS {
     USERNAME = 'USERNAME',
     DISCOUNT = 'Скидка',
     REGISTRATION_DATA = 'Дата регистации',
+    DELETE = 'Удалить',
+    CANCEL = 'Отмена',
+    YES_DELETE = 'Да удалить',
+    ARE_YOU_SURE = 'Вы уверены?',
+    DELETED = 'Удалено',
+    YOU_CANT_RESTORE_IT = 'Вы не сможете это восстановить!',
+    CATEGORY_DELETED_SUCCESSFULLY = 'Категория успешно удалена',
 }
 
 export default STRINGS;

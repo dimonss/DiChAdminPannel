@@ -14,6 +14,7 @@ import { API_RESPONSE_STATUS } from 'types/DTOTypes';
 import IconBox from 'components/icons/IconBox';
 import { BiSolidAddToQueue } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const columnHelper = createColumnHelper<CategoryI>();
 
@@ -32,16 +33,40 @@ const CategoryTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) =
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
     const [deleteNote] = contentApi.useDeleteCategoryMutation();
 
+    const errorAlert = (error: string) => Swal.fire('Ошибка!', error, 'error');
+
     const deleteHandler = useCallback(
         (id: string) => {
-            deleteNote(id)
-                .unwrap()
-                .then((fulfilled) => {
-                    if (fulfilled.status === API_RESPONSE_STATUS.OK) {
-                        console.log('delete successful');
-                    }
-                })
-                .catch((rejected) => console.error(rejected));
+            Swal.fire({
+                title: STRINGS.ARE_YOU_SURE,
+                text: STRINGS.YOU_CANT_RESTORE_IT,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: STRINGS.YES_DELETE,
+                cancelButtonText: STRINGS.CANCEL,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteNote(id)
+                        .unwrap()
+                        .then((fulfilled) => {
+                            if (fulfilled.status === API_RESPONSE_STATUS.OK) {
+                                Swal.fire({
+                                    title: STRINGS.DELETED,
+                                    text: STRINGS.CATEGORY_DELETED_SUCCESSFULLY,
+                                    icon: 'success',
+                                });
+                            } else {
+                                errorAlert(STRINGS.UNKNOWN_ERROR);
+                            }
+                        })
+                        .catch((rejected) => {
+                            errorAlert(STRINGS.UNKNOWN_ERROR);
+                            console.error(rejected);
+                        });
+                }
+            });
         },
         [deleteNote],
     );

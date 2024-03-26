@@ -20,3 +20,7 @@ export interface ErrorI {
 }
 
 export type CurrencyTypeI = 'USD' | 'EUR' | 'RUB';
+
+export interface StringKeyValueI {
+    [key: string]: string;
+}

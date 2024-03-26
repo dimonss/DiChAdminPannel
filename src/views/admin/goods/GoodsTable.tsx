@@ -21,10 +21,6 @@ const GoodsTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-    console.log(tableData);
-    console.log(isLoading);
-    console.log(error);
-    console.log('!!!');
     const columns = [
         columnHelper.accessor('title', {
             id: 'title',

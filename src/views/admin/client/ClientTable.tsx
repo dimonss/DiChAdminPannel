@@ -1,74 +1,26 @@
-import { Box, Flex, Icon, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react';
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
+import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
-import { useCallback } from 'react';
 // Assets
-import { NotificationI } from 'models/NotificationI';
+import { ClientI } from 'models/ClientI';
 import STRINGS from 'constants/strings';
-import ActionCell from 'components/table/cell/ActionCell';
-import { NOTIFICATION_DETAIL_RAW } from 'constants/urls';
-import Swal from 'sweetalert2';
-import { API_RESPONSE_STATUS } from 'types/DTOTypes';
-import { contentApi } from 'API/contentApi';
-import { useNavigate } from 'react-router-dom';
-import IconBox from 'components/icons/IconBox';
-import { BiSolidAddToQueue } from 'react-icons/bi';
+import { getFullPathToUserPhoto } from 'utils/utils';
 
-const columnHelper = createColumnHelper<NotificationI>();
+const columnHelper = createColumnHelper<ClientI>();
 
 interface PropsI {
-    tableData: NotificationI[];
+    tableData: ClientI[];
     isLoading?: Boolean;
     error?: string;
 }
 
 const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-    const brandColor = useColorModeValue('brandScheme.500', 'white');
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-    const errorAlert = (error: string) => Swal.fire('Ошибка!', error, 'error');
-    const [deleteNote] = contentApi.useDeleteNotificationMutation();
-    const navigate = useNavigate();
-
-    const deleteHandler = useCallback(
-        (id: string) => {
-            Swal.fire({
-                title: STRINGS.ARE_YOU_SURE,
-                text: STRINGS.YOU_CANT_RESTORE_IT,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: STRINGS.YES_DELETE,
-                cancelButtonText: STRINGS.CANCEL,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteNote(id)
-                        .unwrap()
-                        .then((fulfilled) => {
-                            if (fulfilled.status === API_RESPONSE_STATUS.OK) {
-                                Swal.fire({
-                                    title: STRINGS.DELETED,
-                                    text: STRINGS.CATEGORY_DELETED_SUCCESSFULLY,
-                                    icon: 'success',
-                                });
-                            } else {
-                                errorAlert(STRINGS.UNKNOWN_ERROR);
-                            }
-                        })
-                        .catch((rejected) => {
-                            errorAlert(STRINGS.UNKNOWN_ERROR);
-                            console.error(rejected);
-                        });
-                }
-            });
-        },
-        [deleteNote],
-    );
     const columns = [
         columnHelper.accessor('id', {
             id: 'id',
@@ -84,11 +36,11 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
             ),
         }),
 
-        columnHelper.accessor('title', {
-            id: 'title',
+        columnHelper.accessor('firstname', {
+            id: 'firstname',
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    {STRINGS.NAME}
+                    {STRINGS.FIRSTNAME}
                 </Text>
             ),
             cell: (info: any) => (
@@ -99,11 +51,11 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
                 </Flex>
             ),
         }),
-        columnHelper.accessor('description', {
-            id: 'description',
+        columnHelper.accessor('lastname', {
+            id: 'lastname',
             header: () => (
                 <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    {STRINGS.DESCRIPTION}
+                    {STRINGS.LASTNAME}
                 </Text>
             ),
             cell: (info) => (
@@ -112,35 +64,79 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
                 </Text>
             ),
         }),
-        columnHelper.accessor('img', {
-            id: 'img',
+        columnHelper.accessor('phoneNumber', {
+            id: 'phoneNumber',
             header: () => (
-                <Text align={'center'} fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    {STRINGS.IMAGE}
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.PHONE_NUMBER}
                 </Text>
             ),
             cell: (info) => (
-                <Flex justifyContent={'center'}>
-                    <img src={info.getValue()} width={'60px'} alt={'none'} />
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor('username', {
+            id: 'username',
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.USERNAME}
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor('discount', {
+            id: 'discount',
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.DISCOUNT}
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor('regDate', {
+            id: 'regDate',
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.REGISTRATION_DATA}
+                </Text>
+            ),
+            cell: (info) => (
+                <Text color={textColor} fontSize="sm" fontWeight="700">
+                    {info.getValue()}
+                </Text>
+            ),
+        }),
+        columnHelper.accessor('photo', {
+            id: 'photo',
+            header: () => (
+                <Text align={'center'} fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.PHOTO}
+                </Text>
+            ),
+            cell: (info) => (
+                <Flex justifyContent={'center'} borderRadius={'50%'} overflow={'hidden'} w={'60px'}>
+                    <img
+                        src={getFullPathToUserPhoto(info.getValue())}
+                        width={'60px'}
+                        alt={'none'}
+                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = 'https://api-private.atlassian.com/users/676899860cbee70d61ee0028d729d9df/avatar';
+                        }}
+                    />
                 </Flex>
             ),
         }),
-        {
-            id: 'edit',
-            cell: (item: any) => (
-                <ActionCell
-                    urlToDetail={NOTIFICATION_DETAIL_RAW + item?.row?.original?.id}
-                    deleteCallback={() => {
-                        deleteHandler(item?.row?.original?.id);
-                    }}
-                />
-            ),
-            header: () => (
-                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
-                    {STRINGS.OPERATIONS}
-                </Text>
-            ),
-        },
     ];
     const table = useReactTable({
         data: tableData,
@@ -157,7 +153,7 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
         <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
             <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
                 <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-                    {STRINGS.NOTIFICATIONS}
+                    {STRINGS.LIST}
                 </Text>
                 {error && (
                     <Text fontSize="sm" color="red.400">
@@ -165,12 +161,7 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
                     </Text>
                 )}
                 {isLoading && <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />}
-                <Flex cursor="pointer" onClick={() => navigate(NOTIFICATION_DETAIL_RAW + '0')}>
-                    <Text color={textColor} fontSize="16px" fontWeight="400" lineHeight="26px" mr={'16px'}>
-                        {STRINGS.ADD}
-                    </Text>
-                    <IconBox w="24px" h="24px" bg={boxBg} icon={<Icon w="16px" h="16px" as={BiSolidAddToQueue} color={brandColor} />} />
-                </Flex>
+                <Menu />
             </Flex>
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">

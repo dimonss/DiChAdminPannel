@@ -10,7 +10,7 @@ import { API_RESPONSE_STATUS } from 'types/DTOTypes';
 const CategoryDetailView = () => {
     const { data, error, isLoading } = contentApi.useFetchCategoryQuery('');
     const id = Number(useParams().id);
-    const categoryName = data.data.find((item) => item.id === id)?.name;
+    const categoryName = data.data.find((item) => item.id === id)?.name || '';
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const brandStars = useColorModeValue('brand.500', 'brand.400');
 

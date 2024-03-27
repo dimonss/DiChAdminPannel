@@ -42,6 +42,7 @@ enum STRINGS {
     DELETED = 'Удалено',
     YOU_CANT_RESTORE_IT = 'Вы не сможете это восстановить!',
     CATEGORY_DELETED_SUCCESSFULLY = 'Категория успешно удалена',
+    NOTIFICATION_DELETED_SUCCESSFULLY = 'Уведомление успешно удалено',
 }
 
 export default STRINGS;

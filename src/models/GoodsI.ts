@@ -15,3 +15,8 @@ export interface GoodsI {
     amount: number;
     displayInShop: number;
 }
+
+export interface GoodsPostI extends Omit<GoodsI, 'id' | 'img'> {
+    id?: number;
+    img?: string;
+}

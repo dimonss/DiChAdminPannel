@@ -2,12 +2,15 @@ import { Box, Flex, Icon, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, useCol
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 // Custom components
 import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
 import * as React from 'react';
 // Assets
 import { MdCancel, MdCheckCircle } from 'react-icons/md';
 import { GoodsI } from 'models/GoodsI';
 import STRINGS from 'constants/strings';
+import ActionCell from 'components/table/cell/ActionCell';
+import { GOODS_DETAIL_RAW } from 'constants/urls';
+import AddNoteButton from 'components/reusable/AddNoteButton';
+import UseDeleteGoodHandler from 'hooks/useDeleteGoodHandler';
 
 const columnHelper = createColumnHelper<GoodsI>();
 
@@ -21,6 +24,8 @@ const GoodsTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const textColor = useColorModeValue('secondaryGray.900', 'white');
     const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
+    const deleteHandler = UseDeleteGoodHandler();
+
     const columns = [
         columnHelper.accessor('title', {
             id: 'title',
@@ -83,6 +88,22 @@ const GoodsTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
                 </Flex>
             ),
         }),
+        {
+            id: 'edit',
+            cell: (item: any) => (
+                <ActionCell
+                    urlToDetail={GOODS_DETAIL_RAW + item?.row?.original?.id}
+                    deleteCallback={() => {
+                        deleteHandler(item?.row?.original?.id);
+                    }}
+                />
+            ),
+            header: () => (
+                <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.OPERATIONS}
+                </Text>
+            ),
+        },
     ];
     const table = useReactTable({
         data: tableData,
@@ -107,7 +128,7 @@ const GoodsTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
                     </Text>
                 )}
                 {isLoading && <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />}
-                <Menu />
+                <AddNoteButton link={GOODS_DETAIL_RAW} />
             </Flex>
             <Box>
                 <Table variant="simple" color="gray.500" mb="24px" mt="12px">

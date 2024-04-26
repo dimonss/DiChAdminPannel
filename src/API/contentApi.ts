@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CATEGORY, CLIENTS, GOODS, NOTIFICATION } from 'API/endpoints';
 import { BaseResponseI } from 'types/DTOTypes';
-import { GoodsI } from 'models/GoodsI';
+import {GoodsI, GoodsPostI} from 'models/GoodsI';
 import { CategoryI } from 'models/CategoryI';
 import store from 'store/store';
 import { ClientI } from 'models/ClientI';
@@ -13,6 +13,7 @@ const baseUrl = process.env.REACT_APP_BASE_API_URL;
 const TAG: StringKeyValueI = {
     NOTIFICATION: 'NOTIFICATION',
     CATEGORY: 'CATEGORY',
+    GOODS: 'GOODS',
 };
 
 interface NotificationForUpdateI {
@@ -44,11 +45,24 @@ export const contentApi = createApi({
             return response.json();
         },
     }),
-    tagTypes: [TAG.CATEGORY, TAG.NOTIFICATION],
+    tagTypes: [TAG.CATEGORY, TAG.NOTIFICATION, TAG.GOODS],
     endpoints: (build) => ({
         //GOODS/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        addGood: build.mutation<BaseResponseI<null>, GoodsPostI>({
+            query: (body) => ({ url: GOODS, method: 'POST', body }),
+            invalidatesTags: [TAG.GOODS],
+        }),
         fetchGoods: build.query<BaseResponseI<GoodsI[]>, string>({
             query: () => ({ url: GOODS }),
+            providesTags: [TAG.GOODS],
+        }),
+        updateGood: build.mutation<BaseResponseI<null>, GoodsPostI>({
+            query: (body) => ({ url: GOODS, method: 'PUT', body }),
+            invalidatesTags: [TAG.GOODS],
+        }),
+        deleteGood: build.mutation<BaseResponseI<null>, string>({
+            query: (id) => ({ url: GOODS + id, method: 'DELETE' }),
+            invalidatesTags: [TAG.GOODS],
         }),
 
         //CATEGORY//////////////////////////////////////////////////////////////////////////////////////////////////////

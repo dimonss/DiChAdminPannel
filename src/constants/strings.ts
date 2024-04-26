@@ -42,7 +42,18 @@ enum STRINGS {
     DELETED = 'Удалено',
     YOU_CANT_RESTORE_IT = 'Вы не сможете это восстановить!',
     CATEGORY_DELETED_SUCCESSFULLY = 'Категория успешно удалена',
+    GOOD_DELETED_SUCCESSFULLY = 'Товар успешно удалена',
     NOTIFICATION_DELETED_SUCCESSFULLY = 'Уведомление успешно удалено',
+    PRICE = 'Цена',
+    SELLING_PRICE = 'Цена продажи',
+    CATEGORY = 'Категория',
+    AMOUNT = 'Количество',
+    SUBTITLE = 'Подзаголовок',
+    TAGS = 'Тэги',
+    REQUIRED_FIELD = 'Обязательное поле',
+    FIELD_MUST_CONTAIN_ONLY_NUMBERS = 'Поле должно содержать только числа',
+    RATING = 'Рейтинг',
+    NUMBER_OF_VOTES = 'Количество голосов',
 }
 
 export default STRINGS;

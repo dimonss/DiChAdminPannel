@@ -1,6 +1,6 @@
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdHome, MdFormatListBulletedAdd, MdOutlineShoppingCart, MdPerson, MdNotificationsActive, MdCategory } from 'react-icons/md';
-import { CATEGORY, CATEGORY_DETAIL, CLIENTS, GOODS, NOTIFICATION, NOTIFICATION_DETAIL } from 'constants/urls';
+import { CATEGORY, CATEGORY_DETAIL, CLIENTS, GOODS, GOODS_DETAIL, NOTIFICATION, NOTIFICATION_DETAIL } from 'constants/urls';
 import STRINGS from 'constants/strings';
 import { ImUsers } from 'react-icons/im';
 import { lazy } from 'react';
@@ -10,6 +10,7 @@ const NotificationView = lazy(() => import('views/admin/notification/Notificatio
 const ClientView = lazy(() => import('views/admin/client/ClientView'));
 const CategoryDetailView = lazy(() => import('views/admin/category/CategoryDetailView'));
 const NotificationDetailView = lazy(() => import('views/admin/notification/NotificationDetailView'));
+const GoodsDetailView = lazy(() => import('views/admin/goods/GoodsDetailView'));
 
 // Admin Imports
 const MainDashboard = lazy(() => import('views/admin/default'));
@@ -57,7 +58,7 @@ const routes = [
         component: CategoryView,
     },
     {
-        name: STRINGS.CATEGORIES,
+        name: '',
         icon: <Icon as={MdCategory} width="20px" height="20px" color="inherit" />,
         path: CATEGORY_DETAIL,
         component: CategoryDetailView,
@@ -70,10 +71,17 @@ const routes = [
         component: NotificationView,
     },
     {
-        name: STRINGS.NOTIFICATIONS,
+        name: '',
         icon: <Icon as={MdNotificationsActive} width="20px" height="20px" color="inherit" />,
         path: NOTIFICATION_DETAIL,
         component: NotificationDetailView,
+        secondary: true,
+    },
+    {
+        name: '',
+        icon: <Icon as={MdNotificationsActive} width="20px" height="20px" color="inherit" />,
+        path: GOODS_DETAIL,
+        component: GoodsDetailView,
         secondary: true,
     },
     {

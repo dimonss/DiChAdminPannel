@@ -1,5 +1,7 @@
 export const AUTH = '/auth/';
 export const GOODS = '/goods/';
+export const GOODS_DETAIL = '/goods/detail/:id/';
+export const GOODS_DETAIL_RAW = '/goods/detail/';
 
 export const CATEGORY = '/category/';
 export const CATEGORY_DETAIL = '/category/detail/:id/';

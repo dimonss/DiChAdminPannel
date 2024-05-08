@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { formikInputProps } from 'utils/formik';
 import { API_RESPONSE_STATUS } from 'types/DTOTypes';
+import ImageCell from 'components/table/cell/ImageCell';
 
 const validationSchema = yup.object().shape({
     title: yup.string().required(STRINGS.REQUIRED_FIELD),
@@ -86,8 +87,6 @@ const GoodsDetailView = () => {
             } else {
                 addHandler(values);
             }
-            console.log(formik.values);
-            alert(JSON.stringify(values, null, 2));
         },
     });
     return (
@@ -271,6 +270,11 @@ const GoodsDetailView = () => {
                                 fontWeight="500"
                                 size="lg"
                             />
+                            <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
+                                {STRINGS.IMAGE}
+                                <Text color={brandStars}>*</Text>
+                            </FormLabel>
+                            <ImageCell img={formik?.values['img']} altImage={'s'} />
                             <Button
                                 type="submit"
                                 fontSize="sm"
@@ -278,7 +282,7 @@ const GoodsDetailView = () => {
                                 fontWeight="500"
                                 w="100%"
                                 h="50"
-                                mb="24px"
+                                mt="24px"
                                 isLoading={addGoodResult.isLoading || updateGoodResult.isLoading}>
                                 {editMode ? STRINGS.SAVE : STRINGS.ADD}
                             </Button>

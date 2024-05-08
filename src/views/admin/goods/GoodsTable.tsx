@@ -11,6 +11,8 @@ import ActionCell from 'components/table/cell/ActionCell';
 import { GOODS_DETAIL_RAW } from 'constants/urls';
 import AddNoteButton from 'components/reusable/AddNoteButton';
 import UseDeleteGoodHandler from 'hooks/useDeleteGoodHandler';
+import ImageCell from 'components/table/cell/ImageCell';
+import defaultImage from './defaultImage.jpeg';
 
 const columnHelper = createColumnHelper<GoodsI>();
 
@@ -87,6 +89,15 @@ const GoodsTable: React.FC<PropsI> = ({ tableData = [], isLoading, error }) => {
                     />
                 </Flex>
             ),
+        }),
+        columnHelper.accessor('img', {
+            id: 'img',
+            header: () => (
+                <Text align={'center'} fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+                    {STRINGS.PHOTO}
+                </Text>
+            ),
+            cell: (info) => <ImageCell altImage={defaultImage} img={info.getValue()} />,
         }),
         {
             id: 'edit',

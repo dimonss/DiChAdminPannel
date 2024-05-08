@@ -7,7 +7,8 @@ import * as React from 'react';
 // Assets
 import { ClientI } from 'models/ClientI';
 import STRINGS from 'constants/strings';
-import { getFullPathToUserPhoto } from 'utils/utils';
+import ImageCell from 'components/table/cell/ImageCell';
+import defaultAvatarImage from './default-avatar.png';
 
 const columnHelper = createColumnHelper<ClientI>();
 
@@ -124,17 +125,7 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
                 </Text>
             ),
             cell: (info) => (
-                <Flex justifyContent={'center'} borderRadius={'50%'} overflow={'hidden'} w={'60px'}>
-                    <img
-                        src={getFullPathToUserPhoto(info.getValue())}
-                        width={'60px'}
-                        alt={'none'}
-                        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = 'https://api-private.atlassian.com/users/676899860cbee70d61ee0028d729d9df/avatar';
-                        }}
-                    />
-                </Flex>
+                <ImageCell altImage={defaultAvatarImage} img={info.getValue()} />
             ),
         }),
     ];

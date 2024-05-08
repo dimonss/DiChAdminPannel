@@ -1,4 +1,4 @@
-export const PATH_TO_CLIENTS_IMAGE = 'static/images/client/';
+export const PATH_TO_IMAGE = 'static/images/';
 
 export enum BUILD_TYPE {
     STAGE = 'stage',

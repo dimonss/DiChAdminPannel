@@ -10,6 +10,8 @@ import ActionCell from 'components/table/cell/ActionCell';
 import { NOTIFICATION_DETAIL_RAW } from 'constants/urls';
 import AddNoteButton from 'components/reusable/AddNoteButton';
 import useDeleteNotificationHandler from 'hooks/useDeleteNotificationHandler';
+import ImageCell from 'components/table/cell/ImageCell';
+import defaultAvatarImage from 'views/admin/client/default-avatar.png';
 
 const columnHelper = createColumnHelper<NotificationI>();
 
@@ -74,11 +76,10 @@ const NotificationTable: React.FC<PropsI> = ({ tableData = [], isLoading, error 
                     {STRINGS.IMAGE}
                 </Text>
             ),
-            cell: (info) => (
-                <Flex justifyContent={'center'}>
-                    <img src={info.getValue()} width={'60px'} alt={'none'} />
-                </Flex>
-            ),
+            cell: (info) => {
+                console.log(info.getValue());
+                return <ImageCell altImage={defaultAvatarImage} img={info.getValue()} fullPath />;
+            },
         }),
         {
             id: 'edit',

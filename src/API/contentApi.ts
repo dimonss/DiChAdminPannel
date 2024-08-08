@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { CATEGORY, CLIENTS, GOODS, NOTIFICATION } from 'API/endpoints';
+import { CATEGORY, CLIENTS, EXCHANGE_RATE, GOODS, NOTIFICATION } from 'API/endpoints';
 import { BaseResponseI } from 'types/DTOTypes';
-import {GoodsI, GoodsPostI} from 'models/GoodsI';
+import { GoodsI, GoodsPostI } from 'models/GoodsI';
 import { CategoryI } from 'models/CategoryI';
 import store from 'store/store';
 import { ClientI } from 'models/ClientI';
 import { NullableString, StringKeyValueI } from 'types/globalTypes';
 import { NotificationI } from 'models/NotificationI';
+import { ExchangeRateI } from 'models/ExchangeRate';
 
 const baseUrl = process.env.REACT_APP_BASE_API_URL;
 
@@ -103,6 +104,10 @@ export const contentApi = createApi({
         //CLIENTS/////////////////////////////////////////////////////////////////////////////////////////////////
         fetchClients: build.query<BaseResponseI<ClientI[]>, string>({
             query: () => ({ url: CLIENTS }),
+        }),
+        //EXCHANGE RATE/////////////////////////////////////////////////////////////////////////////////////////////////
+        fetchExchangeRate: build.query<BaseResponseI<ExchangeRateI[]>, string>({
+            query: () => ({ url: EXCHANGE_RATE }),
         }),
     }),
 });

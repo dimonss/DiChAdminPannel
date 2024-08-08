@@ -3,12 +3,11 @@ import user from './slices/userSlice';
 import { loadState, saveState } from 'utils/localstorageUtils';
 import { contentApi } from 'API/contentApi';
 import { rtkQueryErrorLogger } from 'API/rtkQueryErrorLogger';
-import { exchangeRatesApi } from 'API/exchangeRatesAPI';
+import { BUILD_TYPE } from 'constants/globalConstants';
 
 export const rootReducer = combineReducers({
     user,
     [contentApi.reducerPath]: contentApi.reducer,
-    [exchangeRatesApi.reducerPath]: exchangeRatesApi.reducer,
 });
 const preloadedState = loadState();
 
@@ -16,9 +15,9 @@ export const setupStore = () =>
     configureStore({
         reducer: rootReducer,
         preloadedState,
-        devTools: true,
+        devTools: process.env.REACT_APP_BUILD_TYPE === BUILD_TYPE.LOCAL,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(contentApi.middleware).concat(exchangeRatesApi.middleware).concat(rtkQueryErrorLogger),
+            getDefaultMiddleware().concat(contentApi.middleware).concat(rtkQueryErrorLogger),
     });
 
 export const store = setupStore();

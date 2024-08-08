@@ -19,7 +19,7 @@ import tableDataCheck from 'views/admin/default/variables/tableDataCheck';
 import tableDataComplex from 'views/admin/default/variables/tableDataComplex';
 import { ChangeEvent, useMemo, useState } from 'react';
 import STRINGS from 'constants/strings';
-import { exchangeRatesApi } from 'API/exchangeRatesAPI';
+import { contentApi } from 'API/contentApi';
 import { CurrencyTypeI } from 'types/globalTypes';
 import { CURRENCY_TYPE } from 'constants/dropdownConst';
 
@@ -29,7 +29,7 @@ export default function UserReports() {
     const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 
     const [currency, setCurrency] = useState<CurrencyTypeI | string>(CURRENCY_TYPE.USD);
-    const { data, isLoading, isError } = exchangeRatesApi.useFetchExchangeRateQuery(currency);
+    const { data, isLoading, isError } = contentApi.useFetchExchangeRateQuery("");
 
     const flag = useMemo(() => {
         switch (currency) {
@@ -43,7 +43,10 @@ export default function UserReports() {
                 return usaImg;
         }
     }, [currency]);
-
+    const exchangeRate = useMemo(
+        () => data?.data?.find((item) => item.toCurrency === 'KGS' && item?.currency === currency),
+        [data, currency],
+    );
     return (
         <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3, '2xl': 6 }} gap="20px" mb="20px">
@@ -85,7 +88,7 @@ export default function UserReports() {
                         </Flex>
                     }
                     name={STRINGS.EXCHANGE_RATES}
-                    value={isError ? STRINGS.ERROR : data?.conversion_rates?.KGS}
+                    value={isError ? STRINGS.ERROR : `${exchangeRate?.buy}/${exchangeRate?.sell}`}
                     isLoading={isLoading}
                 />
                 <MiniStatistics

@@ -29,7 +29,7 @@ export default function UserReports() {
     const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
 
     const [currency, setCurrency] = useState<CurrencyTypeI | string>(CURRENCY_TYPE.USD);
-    const { data, isLoading, isError } = contentApi.useFetchExchangeRateQuery("");
+    const { data, isLoading, isError } = contentApi.useFetchExchangeRateQuery(null, {refetchOnMountOrArgChange: 1});
 
     const flag = useMemo(() => {
         switch (currency) {

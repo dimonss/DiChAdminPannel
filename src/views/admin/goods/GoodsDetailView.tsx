@@ -11,6 +11,8 @@ import * as yup from 'yup';
 import { formikInputProps } from 'utils/formik';
 import { API_RESPONSE_STATUS } from 'types/DTOTypes';
 import ImageCell from 'components/table/cell/ImageCell';
+import defaultImage from './defaultImage.jpeg';
+
 
 const validationSchema = yup.object().shape({
     title: yup.string().required(STRINGS.REQUIRED_FIELD),
@@ -274,7 +276,8 @@ const GoodsDetailView = () => {
                                 {STRINGS.IMAGE}
                                 <Text color={brandStars}>*</Text>
                             </FormLabel>
-                            <ImageCell img={formik?.values['img']} altImage={'s'} />
+
+                            {editMode ? <ImageCell img={formik?.values['img']} altImage={defaultImage} /> : null}
                             <Button
                                 type="submit"
                                 fontSize="sm"

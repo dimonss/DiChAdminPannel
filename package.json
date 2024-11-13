@@ -3,6 +3,7 @@
   "name": "horizon-ui-chakra-typescript",
   "version": "1.1.0",
   "private": true,
+  "proxy": "https://chalysh.tech",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.5",
     "@chakra-ui/react": "1.8.8",
@@ -47,7 +48,7 @@
   },
   "scripts": {
     "start:stage": "REACT_APP_BUILD_TYPE=stage react-scripts start",
-    "start:local": "REACT_APP_BUILD_TYPE=local REACT_APP_BASE_API_URL=http://localhost:4000/ react-scripts start",
+    "start:local": "REACT_APP_BUILD_TYPE=local REACT_APP_BASE_API_URL=http://localhost:4000/ REACT_APP_BASE_STATIC_URL=http://localhost/ react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

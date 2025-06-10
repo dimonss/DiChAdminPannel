@@ -54,8 +54,7 @@ export const formikInputProps = <Values>(
             helperText: error,
             id: key,
             name: key,
-            //@ts-ignore//todo to fix this
-            value: date ? formik.values[key]?.substring(0, 10) : formik.values[key] === 0 ? 0 : formik.values[key] || '',
+            value: date ? (formik.values[key] as string)?.substring(0, 10) : formik.values[key] === 0 ? '0' : (formik.values[key] ?? ''),
             onChange: formik.handleChange,
             autoComplete: 'off',
         };
@@ -64,34 +63,27 @@ export const formikInputProps = <Values>(
 };
 
 export const formikInputPropsLevelDive = <Values>(key: string, formik: FormikProps<any>): FormikInputProps<Values> => {
-    const firstKey = key.split('.')[0];
-    const secondKey = key.split('.')[1];
-    //@ts-ignore
+    const firstKey = key.split('.')[0] as keyof typeof formik.values;
+    const secondKey = key.split('.')[1] as string;
+    const firstKeyStr = String(firstKey);
+    const touchedFirst = formik.touched[firstKeyStr] as Record<string, any> | undefined;
+    const errorsFirst = formik.errors[firstKeyStr] as Record<string, any> | undefined;
+    const valuesFirst = formik.values[firstKeyStr] as Record<string, any> | undefined;
     const isError =
-        formik.touched[firstKey] &&
-        //     @ts-ignore//todo to fix this
-        formik.touched[firstKey][secondKey] &&
-        formik.errors[firstKey] &&
-        //     @ts-ignore//todo to fix this
-        formik.errors[firstKey][secondKey] &&
-        //     @ts-ignore//todo to fix this
-        Boolean(formik.errors[firstKey][secondKey]);
+        touchedFirst?.[secondKey] &&
+        errorsFirst?.[secondKey] &&
+        Boolean(errorsFirst?.[secondKey]);
     const error =
-        formik.touched[firstKey] &&
-        //     @ts-ignore//todo to fix this
-        formik.touched[firstKey][secondKey] &&
-        formik.errors[firstKey] &&
-        //     @ts-ignore//todo to fix this
-        formik.errors[firstKey][secondKey]
-            ? //@ts-ignore//todo to fix this
-              (formik.errors[firstKey][secondKey] as string)
+        touchedFirst?.[secondKey] &&
+        errorsFirst?.[secondKey]
+            ? (errorsFirst[secondKey] as string)
             : ' ';
     return {
         isInvalid: isError,
         helperText: error,
-        // @ts-ignore//todo to fix this
-        name: key,
-        value: (formik.values[firstKey] && formik.values[firstKey][secondKey]) || '',
+        id: key as keyof Values,
+        name: key as keyof Values,
+        value: typeof valuesFirst === 'object' ? valuesFirst?.[secondKey] ?? '' : '',
         onChange: formik.handleChange,
         autoComplete: 'off',
     };

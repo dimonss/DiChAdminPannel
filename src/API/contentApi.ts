@@ -33,6 +33,9 @@ export const contentApi = createApi({
         baseUrl,
         prepareHeaders: (headers) => {
             headers.set('Authorization', store.getState().user.token);
+            headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+            headers.set('Pragma', 'no-cache');
+            headers.set('Expires', '0');
             return headers;
         },
         responseHandler: (response: Response): Promise<BaseResponseI<any>> => {
@@ -46,6 +49,7 @@ export const contentApi = createApi({
             return response.json();
         },
     }),
+    keepUnusedDataFor: 0,
     tagTypes: [TAG.CATEGORY, TAG.NOTIFICATION, TAG.GOODS],
     endpoints: (build) => ({
         //GOODS/////////////////////////////////////////////////////////////////////////////////////////////////////////

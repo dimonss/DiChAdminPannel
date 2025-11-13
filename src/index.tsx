@@ -11,7 +11,7 @@ import App from 'App';
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement as HTMLElement);
 root.render(
-    <BrowserRouter basename={'/admin'}>
+    <BrowserRouter basename={'/shop/admin'}>
         <ChakraProvider theme={theme}>
             <Provider store={store}>
                 <App />

@@ -41,7 +41,7 @@ For staging environment:
 npm run start:stage
 ```
 
-The application will be available at `http://localhost:3000/admin`
+The application will be available at `http://localhost:3000/shop/admin`
 
 ## Environment Configuration
 

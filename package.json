@@ -1,9 +1,9 @@
 {
   "homepage": "/shop/admin",
-  "name": "horizon-ui-chakra-typescript",
+  "name": "dich_shop_admin_pannel",
   "version": "1.1.0",
   "private": true,
-  "proxy": "https://chalysh.pro/api/",
+  "proxy": "https://chalysh.pro/shop/api/",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.5",
     "@chakra-ui/react": "1.8.8",
@@ -53,7 +53,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "generate-env": "node scripts/generate-env.mjs"
   },
   "eslintConfig": {
     "extends": [
